@@ -54,5 +54,7 @@ Please cite this paper if you want to use it in your work,
 	  year={2019}
 	}
 
+## 自定义运行方式
+python user-demo.py --checkpoint pretrained/dcp_v2.t7 --src "C:\Abandon\PCD_Data\data_2_cut.pcd" --tgt "C:\Abandon\PCD_Data\data_2.pcd" --npoints 16384
 ## License
 MIT License

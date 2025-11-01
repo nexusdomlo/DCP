@@ -90,9 +90,9 @@ def main():
 
     args = parser.parse_args()
 
-    src, tgt = load_pcds_with_reference(args.src, args.tgt, args.npoints)
-    # src = load_pcd_as_numpy(args.src, args.npoints)
-    # tgt = load_pcd_as_numpy(args.tgt, args.npoints)
+    # src, tgt = load_pcds_with_reference(args.src, args.tgt, args.npoints)
+    src, _ = load_pcd_as_numpy(args.src, args.npoints)
+    tgt, _ = load_pcd_as_numpy(args.tgt, args.npoints)
     print(args.npoints, "个点加载完成")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("使用设备:", device)

@@ -57,7 +57,7 @@ Please cite this paper if you want to use it in your work,
 ## 自定义运行方式
 python user-demo.py --checkpoint pretrained/dcp_v2.t7 --src "C:\Abandon\PCD_Data\data_2_cut.pcd" --tgt "C:\Abandon\PCD_Data\data_2.pcd" --npoints 16384
 或者
-python main_other.py #这个程序是用gemini2.5pro生成的，直接修改代码中的src 和 tgt的路径即可用于测试你的pcd数据，通过修改npoints的点数，来达到更好的效果，推荐是16384个点
+python main_other.py src_path tgt_path --points 16384 #这个程序是用gemini2.5pro生成的，直接修改代码中的src 和 tgt的路径即可用于测试你的pcd数据，通过修改points的点数，来达到更好的效果，推荐是16384个点,属于是最高能够接受的范围了
 或者
 python dcp_icp_pipeline.py --src C:\Abandon\PCD_Data\data_2_cut.pcd --tgt C:\Abandon\PCD_Data\data_2_cut_transformed.pcd --dcp_checkpoint C:\Abandon\Code\Python\DCP\pretrained\dcp_v2.t7 
 ## License

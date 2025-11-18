@@ -107,23 +107,44 @@ def register_pcds(args):
     # 将变换后的点云转置回来以便保存
     aligned_src_np = aligned_src_tensor.transpose(2, 1).detach().cpu().numpy().squeeze()
     
-    save_numpy_to_pcd(aligned_src_np, args.output_path)
+    # save_numpy_to_pcd(aligned_src_np, args.output_path)
+    # --- 新增的可视化代码 ---
+    print("\n正在显示配准结果... (源点云: 红色, 目标点云: 绿色)")
+    
+    # 1. 创建用于可视化的 "变换后的源点云" 对象
+    src_aligned_pcd = o3d.geometry.PointCloud()
+    src_aligned_pcd.points = o3d.utility.Vector3dVector(aligned_src_np)
+    src_aligned_pcd.paint_uniform_color([1, 0, 0])  # 设置为红色
+
+    # 2. 创建用于可视化的 "目标点云" 对象
+    tgt_pcd = o3d.geometry.PointCloud()
+    tgt_pcd.points = o3d.utility.Vector3dVector(tgt_points_np)
+    tgt_pcd.paint_uniform_color([0, 1, 0])  # 设置为绿色
+
+    # 3. 调用 Open3D 的可视化窗口显示两个点云
+    o3d.visualization.draw_geometries([src_aligned_pcd, tgt_pcd])
+    # --- 可视化代码结束 ---
+
 
 
 def main():
+    parser = argparse.ArgumentParser(description="register_with_prior: src tgt (supports .pcd/.ply/.npy)")
+    parser.add_argument("src", help="source 点云 (.pcd/.ply/.npy)")
+    parser.add_argument("tgt", help="target 点云 (.pcd/.ply/.npy) 或 已裁剪的 .pcd")
+    parser.add_argument("--points", type=float, default=16384, help="采样点数 (默认: 16384)")
+    args = parser.parse_args()
+
     # =================== 用户需要修改的参数 ===================
-    src_path = "C:/Abandon/PCD_Data/data_2_cut.pcd"
-    tgt_path = "C:/Abandon/PCD_Data/data_2_cut_transformed.pcd"
+    src_path = args.src
+    tgt_path = args.tgt
     model_path = "pretrained/dcp_v2.t7"
-    output_path = "aligned_src_from_script.pcd"
+    # output_path = "aligned_src_from_script.pcd"
     # =========================================================
 
     args = argparse.Namespace(
         src_path=src_path,
         tgt_path=tgt_path,
         model_path=model_path,
-        output_path=output_path,
-        
         emb_nn='dgcnn',
         pointer='transformer',
         head='svd',
